@@ -15,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DropdownMenuItem
@@ -31,6 +32,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -58,6 +60,7 @@ fun BiodataScreen() {
     var email by remember { mutableStateOf("") }
     var tglLahir by remember { mutableStateOf("") }
     var experience by remember { mutableStateOf("") }
+    val skillTerpilih = remember { mutableStateListOf<String>() }
 
     val bentukKartu = RoundedCornerShape(
         topStart = dimensionResource(id = R.dimen.radius_kartu),
@@ -157,6 +160,13 @@ fun BiodataScreen() {
                             modifier = Modifier.weight(1f)
                         )
                     }
+
+                    PilihanSkill(
+                        skillTerpilih = skillTerpilih,
+                        onSkillChange = { skill, dipilih ->
+                            if (dipilih) skillTerpilih.add(skill) else skillTerpilih.remove(skill)
+                        }
+                    )
                 }
             }
         }
@@ -328,6 +338,44 @@ fun DropdownExperience(
                         terbuka = false
                     }
                 )
+            }
+        }
+    }
+}
+
+@Composable
+fun PilihanSkill(
+    skillTerpilih: List<String>,
+    onSkillChange: (String, Boolean) -> Unit
+) {
+    val daftarSkill = stringArrayResource(id = R.array.daftar_skill)
+
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.jarak_field))
+    ) {
+        Text(
+            text = stringResource(id = R.string.judul_skill),
+            fontSize = dimensionResource(id = R.dimen.ukuran_judul_skill).value.sp,
+            fontWeight = FontWeight.Bold
+        )
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            daftarSkill.forEach { skill ->
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(
+                        checked = skill in skillTerpilih,
+                        onCheckedChange = { dipilih -> onSkillChange(skill, dipilih) }
+                    )
+                    Text(
+                        text = skill,
+                        fontSize = dimensionResource(id = R.dimen.ukuran_teks_skill).value.sp
+                    )
+                }
             }
         }
     }
