@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,6 +28,8 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun BiodataScreen() {
@@ -97,8 +100,29 @@ fun BiodataScreen() {
                         dimensionResource(id = R.dimen.jarak_komponen)
                     )
                 ) {
+                    FormHeader()
                 }
             }
         }
+    }
+}
+
+@Composable
+fun FormHeader() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.jarak_judul))
+    ) {
+        Text(
+            text = stringResource(id = R.string.judul_form),
+            color = colorResource(id = R.color.ungu_utama),
+            fontSize = dimensionResource(id = R.dimen.ukuran_judul).value.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            text = stringResource(id = R.string.subjudul_form),
+            color = colorResource(id = R.color.abu_teks),
+            fontSize = dimensionResource(id = R.dimen.ukuran_subjudul).value.sp
+        )
     }
 }
