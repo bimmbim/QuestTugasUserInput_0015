@@ -14,4 +14,9 @@
     <dimen name="ukuran_judul_skill">14dp</dimen>
     <dimen name="ukuran_teks_skill">12dp</dimen>
     <dimen name="ukuran_teks_tombol">14dp</dimen>
+    <dimen name="ukuran_indikator">6dp</dimen>
+    <dimen name="tinggi_gambar">300dp</dimen>
+    <dimen name="tumpang_tindih_kartu">32dp</dimen>
+
+    <integer name="jumlah_indikator">4</integer>
 </resources>
