@@ -51,6 +51,7 @@ fun BiodataScreen() {
     var namaDepan by remember { mutableStateOf("") }
     var namaBelakang by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
+    var tglLahir by remember { mutableStateOf("") }
 
     val bentukKartu = RoundedCornerShape(
         topStart = dimensionResource(id = R.dimen.radius_kartu),
@@ -132,6 +133,19 @@ fun BiodataScreen() {
                         email = email,
                         onEmailChange = { email = it }
                     )
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(
+                            dimensionResource(id = R.dimen.jarak_field)
+                        )
+                    ) {
+                        FieldTanggalLahir(
+                            tanggal = tglLahir,
+                            onTanggalChange = { tglLahir = it },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
                 }
             }
         }
