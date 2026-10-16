@@ -15,6 +15,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -61,6 +63,13 @@ fun BiodataScreen() {
     var tglLahir by remember { mutableStateOf("") }
     var experience by remember { mutableStateOf("") }
     val skillTerpilih = remember { mutableStateListOf<String>() }
+
+    val dataLengkap = namaDepan.isNotBlank() &&
+            namaBelakang.isNotBlank() &&
+            email.isNotBlank() &&
+            tglLahir.isNotBlank() &&
+            experience.isNotBlank() &&
+            skillTerpilih.isNotEmpty()
 
     val bentukKartu = RoundedCornerShape(
         topStart = dimensionResource(id = R.dimen.radius_kartu),
@@ -166,6 +175,11 @@ fun BiodataScreen() {
                         onSkillChange = { skill, dipilih ->
                             if (dipilih) skillTerpilih.add(skill) else skillTerpilih.remove(skill)
                         }
+                    )
+
+                    TombolProceed(
+                        aktif = dataLengkap,
+                        onClick = { }
                     )
                 }
             }
@@ -378,5 +392,32 @@ fun PilihanSkill(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun TombolProceed(
+    aktif: Boolean,
+    onClick: () -> Unit
+) {
+    Button(
+        onClick = onClick,
+        enabled = aktif,
+        shape = bentukField(),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = colorResource(id = R.color.ungu_utama),
+            contentColor = colorResource(id = R.color.putih_kartu),
+            disabledContainerColor = colorResource(id = R.color.abu_tombol_nonaktif),
+            disabledContentColor = colorResource(id = R.color.putih_kartu)
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(dimensionResource(id = R.dimen.tinggi_tombol))
+    ) {
+        Text(
+            text = stringResource(id = R.string.tombol_proceed),
+            fontSize = dimensionResource(id = R.dimen.ukuran_teks_tombol).value.sp,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
