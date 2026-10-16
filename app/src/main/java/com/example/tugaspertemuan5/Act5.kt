@@ -11,11 +11,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
@@ -25,6 +27,11 @@ import androidx.compose.ui.res.stringResource
 
 @Composable
 fun BiodataScreen() {
+    val bentukKartu = RoundedCornerShape(
+        topStart = dimensionResource(id = R.dimen.radius_kartu),
+        topEnd = dimensionResource(id = R.dimen.radius_kartu)
+    )
+
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Box(modifier = Modifier.fillMaxSize()) {
             Image(
@@ -59,6 +66,25 @@ fun BiodataScreen() {
                     )
                 }
             }
+
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = innerPadding.calculateBottomPadding())
+                    .padding(
+                        top = dimensionResource(id = R.dimen.tinggi_gambar) -
+                                dimensionResource(id = R.dimen.tumpang_tindih_kartu)
+                    )
+                    .fillMaxSize()
+                    .shadow(
+                        elevation = dimensionResource(id = R.dimen.elevasi_kartu),
+                        shape = bentukKartu
+                    )
+                    .background(
+                        color = colorResource(id = R.color.putih_kartu),
+                        shape = bentukKartu
+                    )
+            )
         }
     }
 }
