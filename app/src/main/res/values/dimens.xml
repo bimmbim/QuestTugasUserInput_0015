@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_layar">24dp</dimen>
+    <dimen name="jarak_komponen">16dp</dimen>
+    <dimen name="jarak_field">8dp</dimen>
+    <dimen name="jarak_judul">4dp</dimen>
+    <dimen name="jarak_indikator">4dp</dimen>
+</resources>
