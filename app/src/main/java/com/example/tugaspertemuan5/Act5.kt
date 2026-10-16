@@ -15,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
@@ -63,6 +64,7 @@ fun BiodataScreen() {
     var tglLahir by remember { mutableStateOf("") }
     var experience by remember { mutableStateOf("") }
     val skillTerpilih = remember { mutableStateListOf<String>() }
+    var tampilPopUp by remember { mutableStateOf(false) }
 
     val dataLengkap = namaDepan.isNotBlank() &&
             namaBelakang.isNotBlank() &&
@@ -75,6 +77,18 @@ fun BiodataScreen() {
         topStart = dimensionResource(id = R.dimen.radius_kartu),
         topEnd = dimensionResource(id = R.dimen.radius_kartu)
     )
+
+    if (tampilPopUp) {
+        PopUpHasil(
+            namaDepan = namaDepan,
+            namaBelakang = namaBelakang,
+            email = email,
+            tglLahir = tglLahir,
+            experience = experience,
+            skillTerpilih = skillTerpilih,
+            onTutup = { tampilPopUp = false }
+        )
+    }
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Box(modifier = Modifier.fillMaxSize()) {
@@ -179,7 +193,7 @@ fun BiodataScreen() {
 
                     TombolProceed(
                         aktif = dataLengkap,
-                        onClick = { }
+                        onClick = { tampilPopUp = true }
                     )
                 }
             }
@@ -420,4 +434,45 @@ fun TombolProceed(
             fontWeight = FontWeight.Bold
         )
     }
+}
+
+@Composable
+fun PopUpHasil(
+    namaDepan: String,
+    namaBelakang: String,
+    email: String,
+    tglLahir: String,
+    experience: String,
+    skillTerpilih: List<String>,
+    onTutup: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onTutup,
+        title = {
+            Text(text = stringResource(id = R.string.judul_hasil))
+        },
+        text = {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(
+                    dimensionResource(id = R.dimen.jarak_judul)
+                )
+            ) {
+                Text(text = stringResource(id = R.string.hasil_nama, namaDepan, namaBelakang))
+                Text(text = stringResource(id = R.string.hasil_email, email))
+                Text(text = stringResource(id = R.string.hasil_tgl_lahir, tglLahir))
+                Text(text = stringResource(id = R.string.hasil_experience, experience))
+                Text(
+                    text = stringResource(
+                        id = R.string.hasil_skill,
+                        skillTerpilih.joinToString(stringResource(id = R.string.pemisah_skill))
+                    )
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onTutup) {
+                Text(text = stringResource(id = R.string.tombol_ok))
+            }
+        }
+    )
 }
