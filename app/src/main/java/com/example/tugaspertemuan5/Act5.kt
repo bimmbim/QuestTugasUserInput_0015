@@ -15,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -123,6 +124,39 @@ fun FormHeader() {
             text = stringResource(id = R.string.subjudul_form),
             color = colorResource(id = R.color.abu_teks),
             fontSize = dimensionResource(id = R.dimen.ukuran_subjudul).value.sp
+        )
+    }
+}
+
+@Composable
+fun bentukField() = RoundedCornerShape(dimensionResource(id = R.dimen.radius_field))
+
+@Composable
+fun FieldNama(
+    namaDepan: String,
+    onNamaDepanChange: (String) -> Unit,
+    namaBelakang: String,
+    onNamaBelakangChange: (String) -> Unit
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.jarak_field))
+    ) {
+        OutlinedTextField(
+            value = namaDepan,
+            onValueChange = onNamaDepanChange,
+            singleLine = true,
+            shape = bentukField(),
+            label = { Text(text = stringResource(id = R.string.label_nama_depan)) },
+            modifier = Modifier.weight(1f)
+        )
+        OutlinedTextField(
+            value = namaBelakang,
+            onValueChange = onNamaBelakangChange,
+            singleLine = true,
+            shape = bentukField(),
+            label = { Text(text = stringResource(id = R.string.label_nama_belakang)) },
+            modifier = Modifier.weight(1f)
         )
     }
 }
