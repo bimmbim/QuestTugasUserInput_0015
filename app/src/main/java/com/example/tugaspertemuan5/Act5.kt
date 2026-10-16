@@ -57,6 +57,7 @@ fun BiodataScreen() {
     var namaBelakang by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var tglLahir by remember { mutableStateOf("") }
+    var experience by remember { mutableStateOf("") }
 
     val bentukKartu = RoundedCornerShape(
         topStart = dimensionResource(id = R.dimen.radius_kartu),
@@ -148,6 +149,11 @@ fun BiodataScreen() {
                         FieldTanggalLahir(
                             tanggal = tglLahir,
                             onTanggalChange = { tglLahir = it },
+                            modifier = Modifier.weight(1f)
+                        )
+                        DropdownExperience(
+                            terpilih = experience,
+                            onTerpilihChange = { experience = it },
                             modifier = Modifier.weight(1f)
                         )
                     }
