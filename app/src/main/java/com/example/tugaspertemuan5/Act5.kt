@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.sp
 fun BiodataScreen() {
     var namaDepan by remember { mutableStateOf("") }
     var namaBelakang by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
 
     val bentukKartu = RoundedCornerShape(
         topStart = dimensionResource(id = R.dimen.radius_kartu),
@@ -116,6 +117,11 @@ fun BiodataScreen() {
                         namaBelakang = namaBelakang,
                         onNamaBelakangChange = { namaBelakang = it }
                     )
+
+                    FieldEmail(
+                        email = email,
+                        onEmailChange = { email = it }
+                    )
                 }
             }
         }
@@ -173,4 +179,19 @@ fun FieldNama(
             modifier = Modifier.weight(1f)
         )
     }
+}
+
+@Composable
+fun FieldEmail(
+    email: String,
+    onEmailChange: (String) -> Unit
+) {
+    OutlinedTextField(
+        value = email,
+        onValueChange = onEmailChange,
+        singleLine = true,
+        shape = bentukField(),
+        label = { Text(text = stringResource(id = R.string.label_email)) },
+        modifier = Modifier.fillMaxWidth()
+    )
 }
