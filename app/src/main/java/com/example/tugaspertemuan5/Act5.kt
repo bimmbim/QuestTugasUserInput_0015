@@ -17,7 +17,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -39,6 +43,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
@@ -274,6 +279,50 @@ fun FieldTanggalLahir(
             }
         ) {
             DatePicker(state = datePickerState)
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DropdownExperience(
+    terpilih: String,
+    onTerpilihChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var terbuka by remember { mutableStateOf(false) }
+    val daftarExperience = stringArrayResource(id = R.array.daftar_experience)
+
+    ExposedDropdownMenuBox(
+        expanded = terbuka,
+        onExpandedChange = { terbuka = !terbuka },
+        modifier = modifier
+    ) {
+        OutlinedTextField(
+            value = terpilih,
+            onValueChange = {},
+            readOnly = true,
+            singleLine = true,
+            shape = bentukField(),
+            label = { Text(text = stringResource(id = R.string.label_experience)) },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = terbuka) },
+            modifier = Modifier
+                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
+                .fillMaxWidth()
+        )
+        ExposedDropdownMenu(
+            expanded = terbuka,
+            onDismissRequest = { terbuka = false }
+        ) {
+            daftarExperience.forEach { pilihan ->
+                DropdownMenuItem(
+                    text = { Text(text = pilihan) },
+                    onClick = {
+                        onTerpilihChange(pilihan)
+                        terbuka = false
+                    }
+                )
+            }
         }
     }
 }
