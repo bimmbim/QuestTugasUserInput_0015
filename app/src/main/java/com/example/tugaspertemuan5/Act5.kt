@@ -15,9 +15,16 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,6 +42,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Composable
 fun BiodataScreen() {
@@ -194,4 +204,62 @@ fun FieldEmail(
         label = { Text(text = stringResource(id = R.string.label_email)) },
         modifier = Modifier.fillMaxWidth()
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FieldTanggalLahir(
+    tanggal: String,
+    onTanggalChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var tampilDialog by remember { mutableStateOf(false) }
+    val polaTanggal = stringResource(id = R.string.format_tanggal)
+
+    OutlinedTextField(
+        value = tanggal,
+        onValueChange = {},
+        readOnly = true,
+        singleLine = true,
+        shape = bentukField(),
+        label = { Text(text = stringResource(id = R.string.label_tgl_lahir)) },
+        trailingIcon = {
+            IconButton(onClick = { tampilDialog = true }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_kalender),
+                    contentDescription = stringResource(id = R.string.deskripsi_ikon_kalender)
+                )
+            }
+        },
+        modifier = modifier
+    )
+
+    if (tampilDialog) {
+        val datePickerState = rememberDatePickerState()
+        DatePickerDialog(
+            onDismissRequest = { tampilDialog = false },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        datePickerState.selectedDateMillis?.let { milis ->
+                            onTanggalChange(
+                                SimpleDateFormat(polaTanggal, Locale.getDefault())
+                                    .format(Date(milis))
+                            )
+                        }
+                        tampilDialog = false
+                    }
+                ) {
+                    Text(text = stringResource(id = R.string.tombol_ok))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { tampilDialog = false }) {
+                    Text(text = stringResource(id = R.string.tombol_batal))
+                }
+            }
+        ) {
+            DatePicker(state = datePickerState)
+        }
+    }
 }
